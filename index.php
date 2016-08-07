@@ -11,7 +11,7 @@ $dt_ini = isset($_POST['dt_inicial']) ? $_POST['dt_inicial'] : '';
 $dt_fim = isset($_POST['dt_final']) ? $_POST['dt_final'] : '';
 $concluido = isset($_POST['concluido']) ? $_POST['concluido'] : '';
 
-echo "Ordem Serviço: ";
+/*echo "Ordem Serviço: ";
 print_r($ordem_servico);
 echo "<br><br>";
 echo "Cliente: ";
@@ -25,7 +25,7 @@ print_r($dt_fim);
 echo "<br><br>";
 echo "Concluido: ";
 print_r($concluido);
-
+*/
 
 ?>
 
@@ -139,12 +139,8 @@ $('#datepicker2').change(function(){
 
 <?php
 
-
-/*
-
 $qordem_servico = ($ordem_servico != '')  ? "and id = {$ordem_servico} " : '';
-$qCliente = ($nomeCliente != '') ? "and nome = '{$nomeCliente}' " : '';
-
+$qCliente = ($nomeCliente != '') ? "and nome like '%{$nomeCliente}%' " : '';
 $qdata = ($dt_ini != '') ? "and data_venda between '{$dt_ini}' and '{$dt_fim}' " : '';
 $qconcluido = ($concluido != '') ? "and concluido = '{$concluido}' " : '';
 
@@ -161,19 +157,24 @@ $qconcluido = ($concluido != '') ? "and concluido = '{$concluido}' " : '';
             {$qconcluido};";    
 
     ?>*/
+
+//print_r($qordem_servico);    
     
    
     $queryN = "select * from ordem_servico
                 where 1 = 1
                 {$qordem_servico}
+                {$qCliente}
     ";
 
-print_r($ordem_servico);
+//echo "query: " . $queryN;    
+
+/*print_r($ordem_servico);
 print_r($nomeCliente);
 print_r($dt_ini);
 print_r($dt_fim);
 print_r($concluido);
-
+*/
 
 echo "   
     <table border='1' class='table table-hover'>
@@ -210,7 +211,7 @@ echo "
         echo "<td><a href='/detalhesServico.php?id={$t['id']}'>Selecionar</a></td>";
         echo "</tr>";
 
-        print_r($t);
+        //print_r($t);
     }
 
     

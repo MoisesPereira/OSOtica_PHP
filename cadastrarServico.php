@@ -3,13 +3,13 @@
 require('header.php');
 require('./model/db/Conexao.class.php');
 
-$id = isset($_GET['id']) ? $_GET['id'] : '';
+/*$id = isset($_GET['id']) ? $_GET['id'] : '';
 $nome = isset($_GET['nome']) ? $_GET['nome'] : '';
 $email = isset($_GET['email']) ? $_GET['email'] : '';
 $celular = isset($_GET['celular']) ? $_GET['celular'] : '';
 $telefone = isset($_GET['telefone']) ? $_GET['telefone'] : '';
 $idade = isset($_GET['idade']) ? $_GET['idade'] : '';
-
+*/
 ?>
 
 <!-- mascara para cobrir o site -->  
@@ -26,43 +26,109 @@ $idade = isset($_GET['idade']) ? $_GET['idade'] : '';
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="id_servico" name="id_servico" type="hidden" value="<?=$id; ?>" class="form-control">
-                                <input id="nome_cliente" name="nome_cliente" type="text"
-                                    value="<?=$nome; ?>" placeholder="Nome Cliente" class="form-control">
+                                <input id="nome_cliente" name="nome_cliente" type="text" placeholder="Nome Cliente" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="email" name="email" type="text" 
-                                    value="<?=$email; ?>" placeholder="Email" class="form-control">
+                                <input id="email" name="email" type="text" placeholder="Email" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="phone" name="phone" type="text" 
-                                    value="<?=$telefone; ?>" placeholder="Telefone" class="form-control">
+                                <input id="telefone" name="telefone" type="text" placeholder="Telefone" class="form-control">
                             </div>
                         </div>                        
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="telefone" name="telefone" type="text" 
-                                    value="<?=$celular; ?>" placeholder="Celular / Whats" class="form-control">
+                                <input id="celular" name="celular" type="text" placeholder="Celular / Whats" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="idade" name="idade" type="text" 
-                                    value="<?=$idade; ?>" placeholder="Idade" class="form-control">
+                                <input id="idade" name="idade" type="text" placeholder="Idade" class="form-control">
                             </div>
                         </div>                        
+
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="Data Venda" id="datepicker" name="data_venda">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="Data Retirada" id="datepicker2" name="data_retirada">
+                            </div>
+                        </div> 
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="armacao" name="armacao" type="text" placeholder="Armação" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="lente" name="lente" type="text" placeholder="Lente" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="grau_longe_od" name="grau_longe_od" type="text" 
+                                    placeholder="Grau Longe Olho Direito"  class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="grau_longe_oe" name="grau_longe_oe" type="text" 
+                                    placeholder="Grau Longe Olho Esquerdo"  class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="grau_perto_od" name="grau_perto_od" type="text" 
+                                    placeholder="Grau Perto Olho Direito"  class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="grau_perto_oe" name="grau_perto_oe" type="text" 
+                                    placeholder="Grau Perto Olho Esquerdo"  class="form-control">
+                            </div>
+                        </div>
+
+                
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="forma_pagamento" name="forma_pagamento" type="text" placeholder="Forma de Pagamento" class="form-control">
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
@@ -81,30 +147,10 @@ $idade = isset($_GET['idade']) ? $_GET['idade'] : '';
                                     <option value="1">Sim</option> 
                                 </select>
                             </div>
-                        </div>
+                        </div>                        
+
 
                         <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Data Venda" id="datepicker2" name="data-venda">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="Data Retirada" id="datepicker" name="data-retirada">
-                            </div>
-                        </div> 
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input id="forma_pagamento" name="forma_pagamento" type="text" placeholder="Forma de Pagamento" class="form-control">
-                            </div>
-                        </div>
-
-                                                                        <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                                 <input id="observacao" name="observacao" type="text" placeholder="Observação" class="form-control">

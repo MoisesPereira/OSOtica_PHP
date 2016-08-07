@@ -1,56 +1,34 @@
 <?php
-//session_start();
-
 require('header.php');
 require('./model/db/Conexao.class.php');
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 
+// Variaveis que vão receber os valors da query
+$nome_cliente; $email; $telefone; $celular; $idade; $data_venda; $data_retirada;
+
+//if($data_venda != ''){$data_venda = explode('/', $data_venda); $data_venda = $data_venda[2].'-'.$data_venda[1].'-'.$data_venda[0];}
+//if($data_retirada != ''){$data_retirada = explode('/', $data_retirada); $data_retirada = $data_retirada[2].'-'.$data_retirada[1].'-'.$data_retirada[0];}
+
+$armacao; $lente; $grau_longe_od; $grau_longe_oe; $grau_perto_od; $grau_perto_oe; $forma_pagamento;
+$valor; $concluido; $observacao;
+// Variaveis que vão receber os valors da query
 
 
 $conn = Conexao::getInstace();
 
-/*
-$query = "select tc.nome cliente, tc.email, tc.telefone, tc.celular, tc.celular2, tc.endereco, 
-        tc.bairro, tc.cidade, tc.estado, tc.cep, tc.referencia, format(ss.valor,2,'de_DE') valor, 
-        ss.concluido, ss.dt_cadastro dt_entrada, ss.dt_entrega, ss.observacao, ss.gasto1, format(ss.valor1,2,'de_DE') valor1, 
-        ss.gasto2, format(ss.valor2,2,'de_DE') valor2, ss.gasto3, format(ss.valor3,2,'de_DE') valor3, 
-        ss.gasto4, format(ss.valor4,2,'de_DE') valor4, ss.gasto5, format(ss.valor5,2,'de_DE') valor5, 
-        ss.dt_orcamento, ss.tp_reforma, ss.tp_confeccao, ss.tp_manutencao, ss.tp_venda, ss.sb_sofa, ss.sb_poltrona,
-        ss.sb_bergere, ss.sb_cadeira, ss.sb_capa, ss.sb_almofada, ss.sb_puff, ss.sb_cabeceira, ss.sb_futon,
-        ss.sb_cheise, ss.sb_outros,
-        tf.id_funcionario, tf.nome funcionario, tfp.id_forma_pagamento, tfp.descricao 
-from tb_servico ss 
-        inner join tb_cliente tc on ss.tb_cliente_id_cliente = tc.id_cliente 
-        inner join tb_funcionario tf on ss.funcionario = tf.id_funcionario 
-        inner join tb_forma_pagamento tfp on ss.forma_pagamento = tfp.id_forma_pagamento
-    where ss.id_servico = {$id}";
+$sql = "select * from ordem_servico where id = {$id}";
 
-$queryImg = "select * from tb_imagem where tb_servico_id_servico = {$id}";
+$q = mysqli_query($conn, $sql);
 
-$rstQuery = mysqli_query($conn, $query);
-$rstImage = mysqli_query($conn, $queryImg);
-
-$t = mysqli_fetch_assoc($rstQuery);
-
-$data_orcamento = explode('-', $t['dt_orcamento']);
-$data_orcamento = $data_orcamento[2].'/'.$data_orcamento[1].'/'.$data_orcamento[0];
-
-$data_entrada = explode('-', $t['dt_entrada']);
-$data_entrada = $data_entrada[2].'/'.$data_entrada[1].'/'.$data_entrada[0];
-
-$data_entrega = explode('-', $t['dt_entrega']);
-$data_entrega = $data_entrega[2].'/'.$data_entrega[1].'/'.$data_entrega[0];
-
-$imagens = array();
-$i = 0;
-
-while($img = mysqli_fetch_assoc($rstImage)){
-    $imagens[$i] = $img['descricao'];
-    $i++;
-}
-
-*/
+    while($t = mysqli_fetch_assoc($q)){
+        $nome_cliente = $t['nome']; $email = $t['email']; $telefone = $t['telefone'];
+        $celular = $t['celular']; $idade = $t['idade']; $data_venda = $t['data_venda'];
+        $data_retirada = $t['data_retirada']; $armacao = $t['armacao']; $lente = $t['lente'];
+        $grau_longe_od = $t['grau_longe_od']; $grau_longe_oe = $t['grau_longe_oe']; $grau_perto_od = $t['grau_perto_od'];
+        $grau_perto_oe = $t['grau_perto_oe']; $forma_pagamento = $t['forma_pagamento'];
+        $valor = $t['valor']; $concluido = $t['concluido']; $observacao = $t['observacao'];
+    }
 
 ?>
 
@@ -68,8 +46,8 @@ while($img = mysqli_fetch_assoc($rstImage)){
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Nome:</label>
-                                <input id="id_servico" name="id_servico" type="hidden" value="<?=$id; ?>" class="form-control">
-                                <input id="fname" name="fname" type="text" value="<?php 'echo $t["cliente"]'; ?>" class="form-control">
+                                <input id="id" name="id" type="hidden" value="<?php echo $id; ?>" class="form-control">
+                                <input id="nome_cliente" name="nome_cliente" type="text" value="<?php echo $nome_cliente; ?>" class="form-control">
                             </div>
                         </div>
 
@@ -77,7 +55,7 @@ while($img = mysqli_fetch_assoc($rstImage)){
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Email:</label>
-                                <input id="email" name="email" type="text" value="<?php 'echo $t["email"]'; ?>" class="form-control">
+                                <input id="email" name="email" type="text" value="<?php echo $email; ?>" class="form-control">
                             </div>
                         </div>
 
@@ -85,7 +63,7 @@ while($img = mysqli_fetch_assoc($rstImage)){
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Telefone:</label>
-                                <input id="phone" name="phone" type="text" value="<?php 'echo $t["telefone"]'; ?>" class="form-control">
+                                <input id="telefone" name="telefone" type="text" value="<?php echo $telefone; ?>" class="form-control">
                             </div>
                         </div>
 
@@ -93,72 +71,120 @@ while($img = mysqli_fetch_assoc($rstImage)){
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Celular:</label>
-                                <input id="celular" name="celular" type="text" value="<?php 'echo $t["celular"]'; ?>" placeholder="Celular" class="form-control">
+                                <input id="celular" name="celular" type="text" value="<?php echo $celular; ?>" placeholder="Celular" class="form-control">
                             </div>
                         </div>
-
-        
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                            <label>Valor:</label>
-                                <input id="valor" name="valor" type="text" value="<?php 'echo $t["valor"]'; ?>" class="form-control">
+                            <label>Idade:</label>
+                                <input id="idade" name="idade" type="text" value="<?php echo $idade; ?>" placeholder="Idade" class="form-control">
                             </div>
-                        </div>       
+                        </div>        
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Data Venda:</label>
+                                <input name="data_venda" type="text" id="datepicker"  value="<?php echo $data_venda; ?>" placeholder="Data Venda" class="form-control">
+                            </div>
+                        </div>   
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Data Retirada:</label>
+                                <input name="data_retirada" type="text" id="datepicker2" value="<?php echo $data_retirada; ?>" placeholder="Data Retirada" class="form-control">
+                            </div>
+                        </div>                           
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Armação:</label>
+                                <input id="armacao" name="armacao" type="text" value="<?php echo $armacao; ?>" placeholder="Armação" class="form-control">
+                            </div>
+                        </div>  
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Lente:</label>
+                                <input id="lente" name="lente" type="text" value="<?php echo $lente; ?>" placeholder="Lente" class="form-control">
+                            </div>
+                        </div> 
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Grau Longe Olho Direito:</label>
+                                <input id="grau_longe_od" name="grau_longe_od" type="text" value="<?php echo $grau_longe_od; ?>" placeholder="Grau Longe Olho Direito" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Grau Longe Olho Esquerdo:</label>
+                                <input id="grau_longe_oe" name="grau_longe_oe" type="text" value="<?php echo $grau_longe_oe; ?>" placeholder="Grau Longe Olho Esquerdo" class="form-control">
+                            </div>
+                        </div>                        
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Grau Perto Olho Direito:</label>
+                                <input id="grau_perto_od" name="grau_perto_od" type="text" value="<?php echo $grau_perto_od; ?>" placeholder="Grau Perto Olho Direito" class="form-control">
+                            </div>
+                        </div>  
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Grau Perto Olho Esquerdo:</label>
+                                <input id="grau_perto_oe" name="grau_perto_oe" type="text" value="<?php echo $grau_perto_oe; ?>" placeholder="Grau Perto Olho Esquerdo" class="form-control">
+                            </div>
+                        </div>  
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Forma de Pagamento:</label>
-                                <select id="forma_pagamento" name="forma_pagamento" placeholder="Forma Pagamento" class="form-control"> 
-                                    <option value="<?php 'echo $t["id_forma_pagamento"]'; ?>" selected><?php 'echo $t["descricao"]'; ?></option> 
-                                </select>                                
+                                <input id="forma_pagamento" name="forma_pagamento" type="text" value="<?php echo $forma_pagamento; ?>" placeholder="Forma Pagamento" class="form-control">                            
                             </div>
                         </div> 
+
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                            <label>Concluido:</label>
+                            <label>Valor:</label>
+                                <input id="valor" name="valor" type="text" value="<?php echo $valor; ?>" class="form-control">
+                            </div>
+                        </div>       
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
                                  <select id="concluido" name="concluido" placeholder="Concluido" class="form-control"> 
-                                    <!--<option <?= $t['concluido'] == 0 ? 'selected' : ''; ?> value="0">Não</option> 
-                                    <option <?= $t['concluido'] == 1 ? 'selected' : ''; ?> value="1">Sim</option> -->
-                                </select>                                
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                            <div class="col-md-8">
-                            <label>Data de Entrada:</label>
-                                <input id="datepicker" name="dt_entrada" type="text" value="<?php echo '$data_entrada'; ?>" class="form-control">
-                                <input type="hidden" id="data_entrada" value="<?php echo '$data_entrada'; ?>" name="data_entrada" class="form-control">
-                            </div>
-                        </div>                         
-
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                            <div class="col-md-8">
-                            <label>Data de Entrega:</label>
-                                <input id="datepicker2" name="dt_entrega" type="text" value="<?php echo '$data_entrega'; ?>" class="form-control">
-                                <input type="hidden" id="data_entrega" value="<?php echo '$data_entrega'; ?>" name="data_entrega" class="form-control">
+                                    <option value=""><?php echo $concluido == 'S' ? 'Sim' : 'Não'; ?></option> 
+                                    <option value="N">Não</option> 
+                                    <option value="S">Sim</option> 
+                                </select>
                             </div>
                         </div> 
-
-
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Observação:</label>
-                                <textarea class="form-control" id="observacao" name="observacao" rows="7" ><?php echo '$t[observacao]'; ?></textarea>
+                                <textarea class="form-control" id="observacao" name="observacao" rows="7" ><?php echo $observacao; ?></textarea>
                             </div>
                         </div>
 
-
-                  
 
                     <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
                       <div class="modal-dialog">

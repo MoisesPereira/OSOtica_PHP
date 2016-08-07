@@ -105,6 +105,7 @@ require('config.php');
 		    <ul class="dropdown-menu">
 		      <li><a href="/index.php">Listar</a></li>
 		      <li><a href="/cadastrarServico.php">Cadastrar</a></li>
+		      <li><a href="/detalhesServico.php">Detalhes</a></li>
 		    </ul>
 		</li>
 
