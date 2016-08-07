@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="/css/main.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="/js/maskJquery.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
 
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -84,7 +86,39 @@
 			});
 
 		});
+
+		$(document).on("keypress", 'form', function (e) {
+		    var code = e.keyCode || e.which;
+		    if (code == 13) {
+		        e.preventDefault();
+		        return false;
+		    }
+		});
+
+		$('#cadastroServico').validate({
+		    rules: {
+		        email: {
+		            required: true,
+		            email: true
+		        },
+		        message: {
+		            minlength: 2,
+		            required: true
+		        }
+		    },
+		    highlight: function (element) {
+		        $(element).closest('.control-group').removeClass('success').addClass('error');
+		    },
+		    success: function (element) {
+		        element.text('OK!').addClass('valid')
+		            .closest('.control-group').removeClass('error').addClass('success');
+		    }
+		});		
+
 	</script>
+
+
+
 
 </head>
 
@@ -93,7 +127,6 @@
 <?php
 require('config.php');
 ?>
-
 
 
 	<div class="container">

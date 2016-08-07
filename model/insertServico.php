@@ -5,6 +5,7 @@ ini_set("display_errors", 1);
 require('./db/Conexao.class.php');
 //require('../WideImage/lib/WideImage.php');
 
+$osmanual = isset($_POST['osmanual']) ? $_POST['osmanual'] : '';
 $nome_cliente = isset($_POST['nome_cliente']) ? $_POST['nome_cliente'] : '';
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $telefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
@@ -22,20 +23,51 @@ $grau_longe_od = isset($_POST['grau_longe_od']) ? $_POST['grau_longe_od'] : '';
 $grau_longe_oe = isset($_POST['grau_longe_oe']) ? $_POST['grau_longe_oe'] : '';
 $grau_perto_od = isset($_POST['grau_perto_od']) ? $_POST['grau_perto_od'] : '';
 $grau_perto_oe = isset($_POST['grau_perto_oe']) ? $_POST['grau_perto_oe'] : '';
+
+$tipo_armacao = isset($_POST['tipo_armacao']) ? $_POST['tipo_armacao'] : '';
+$atraves = isset($_POST['atraves']) ? $_POST['atraves'] : '';
+
+$dp = isset($_POST['dp']) ? $_POST['dp'] : '';
+$altura = isset($_POST['altura']) ? $_POST['altura'] : '';
+
 $forma_pagamento = isset($_POST['forma_pagamento']) ? $_POST['forma_pagamento'] : '';
-$valor = isset($_POST['valor']) ? $_POST['valor'] : '';
-$concluido = isset($_POST['concluido']) ? $_POST['concluido'] : '';
+$valor = ($_POST['valor'] == '') ? 0 : $_POST['valor'];
+$valor = str_replace(',','.',str_replace('.','',$valor));
+
+$endereco = isset($_POST['endereco']) ? $_POST['endereco'] : '';
+$bairro = isset($_POST['bairro']) ? $_POST['bairro'] : '';
+$vendedor = isset($_POST['vendedor']) ? $_POST['vendedor'] : '';
+
 $observacao = isset($_POST['observacao']) ? $_POST['observacao'] : '';
 
 $conn = Conexao::getInstace();
 
+$sqlOS = "select * from ordem_servico where os_manual = '{$osmanual}'";
+
+$qOs = mysqli_query($conn, $sqlOS);
+
+if($qOs){
+   echo "Ordem de Serviço já Cadastrada222!";
+   header('Location: ' . $_SERVER['HTTP_REFERER']);
+   //header('Location: javascript:history.go(-1)');
+
+   //header('Location: http://www.example.com/');
+
+   //return;
+   //echo "<script> window.history.back(); </script>";
+}
+
+
+
 $sql = "insert into ordem_servico(
    data_venda, data_retirada, nome, idade, armacao, lente, grau_longe_od, grau_longe_oe, 
-   grau_perto_od, grau_perto_oe, valor, forma_pagamento, observacao, concluido, email, telefone, celular, data_cadastro
+   grau_perto_od, grau_perto_oe, valor, forma_pagamento, observacao, email, telefone, celular, 
+   data_cadastro, os_manual, tipo_armacao, atraves_de, dp, altura, endereco, bairro, vendedor
 )values(
    '{$data_venda}', '{$data_retirada}', '{$nome_cliente}', '{$idade}', '{$armacao}', '{$lente}',
    '{$grau_longe_od}', '{$grau_longe_oe}', '{$grau_perto_od}', '{$grau_perto_oe}', '{$valor}', '{$forma_pagamento}',
-   '{$observacao}', '{$concluido}', '{$email}', '{$telefone}', '{$celular}', now()
+   '{$observacao}', '{$email}', '{$telefone}', '{$celular}', now(), '{$osmanual}', '{$tipo_armacao}', '{$atraves}',
+   '{$dp}', '{$altura}', '{$endereco}', '{$bairro}', '{$vendedor}'
 )";
 
 
@@ -44,14 +76,16 @@ try {
       $q = mysqli_query($conn, $sql);
 
       $returnId = mysqli_insert_id($conn);
+
+      echo "cadastro realizado com sucesso!";
+      echo "<meta HTTP-EQUIV='refresh' CONTENT='2;URL=/detalhesServico.php?id={$returnId}'>";
    
 } catch (Exception $e) {
    print_r($e);
 }
 
 
-echo "cadastro realizado com sucesso!";
-echo "<meta HTTP-EQUIV='refresh' CONTENT='2;URL=/detalhesServico.php?id={$returnId}'>";
+
 
 
 ?>

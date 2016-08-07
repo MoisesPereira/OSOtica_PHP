@@ -7,17 +7,14 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 // Variaveis que vão receber os valors da query
 $nome_cliente; $email; $telefone; $celular; $idade; $data_venda; $data_retirada;
 
-//if($data_venda != ''){$data_venda = explode('/', $data_venda); $data_venda = $data_venda[2].'-'.$data_venda[1].'-'.$data_venda[0];}
-//if($data_retirada != ''){$data_retirada = explode('/', $data_retirada); $data_retirada = $data_retirada[2].'-'.$data_retirada[1].'-'.$data_retirada[0];}
-
 $armacao; $lente; $grau_longe_od; $grau_longe_oe; $grau_perto_od; $grau_perto_oe; $forma_pagamento;
-$valor; $concluido; $observacao;
+$valor; $concluido; $observacao; $tipo_armacao; $atraves_de; $dp; $altura; $endereco; $bairro;
 // Variaveis que vão receber os valors da query
-
 
 $conn = Conexao::getInstace();
 
-$sql = "select * from ordem_servico where id = {$id}";
+$sql = "select format(os.valor,2,'de_DE')valor, os.* from ordem_servico os where id = {$id}";
+
 
 $q = mysqli_query($conn, $sql);
 
@@ -27,8 +24,24 @@ $q = mysqli_query($conn, $sql);
         $data_retirada = $t['data_retirada']; $armacao = $t['armacao']; $lente = $t['lente'];
         $grau_longe_od = $t['grau_longe_od']; $grau_longe_oe = $t['grau_longe_oe']; $grau_perto_od = $t['grau_perto_od'];
         $grau_perto_oe = $t['grau_perto_oe']; $forma_pagamento = $t['forma_pagamento'];
-        $valor = $t['valor']; $concluido = $t['concluido']; $observacao = $t['observacao'];
+        $valor = number_format($t['valor'],2,",","."); $concluido = $t['concluido']; $observacao = $t['observacao']; 
+        $osmanual = $t['os_manual']; $tipo_armacao = $t['tipo_armacao']; $atraves_de = $t['atraves_de'];
+        $dp = $t['dp']; $altura = $t['altura']; $endereco = $t['endereco']; $bairro = $t['bairro']; $vendedor = $t['vendedor']; 
     }
+
+
+
+if(!strstr($data_venda, "/")){
+    $data_venda = explode('-', $data_venda); 
+    $data_venda = $data_venda[2].'/'.$data_venda[1].'/'.$data_venda[0];
+}
+
+if(!strstr($data_retirada, "/")){
+    $data_retirada = explode('-', $data_retirada); 
+    $data_retirada = $data_retirada[2].'/'.$data_retirada[1].'/'.$data_retirada[0];
+}
+
+
 
 ?>
 
@@ -38,9 +51,10 @@ $q = mysqli_query($conn, $sql);
             <div class="well well-sm">
                 <form class="form-horizontal" method="post" action="./model/alterarServico.php" enctype="multipart/form-data">
                     <fieldset>
-                        <legend class="text-center header">Ordem de Serviço: <b style='color:red'><?=$id; ?></b> </legend>
+                        <legend class="text-center header">Ordem de Serviço: <b style='color:red'><?=$osmanual; ?></b> </legend>
 
                         <p class="text-center header">Cliente</p>
+
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
@@ -50,6 +64,23 @@ $q = mysqli_query($conn, $sql);
                                 <input id="nome_cliente" name="nome_cliente" type="text" value="<?php echo $nome_cliente; ?>" class="form-control">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Endereço:</label>
+                                <input id="endereco" name="endereco" type="text" value="<?php echo $endereco; ?>" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Bairro:</label>
+                                <input id="bairro" name="bairro" type="text" value="<?php echo $bairro; ?>" class="form-control">
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
@@ -75,6 +106,25 @@ $q = mysqli_query($conn, $sql);
                             </div>
                         </div>
 
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Através De:</label>
+                                <select id="atraves_de" name="atraves_de" class="form-control"> 
+                                    <option value="<?php echo $atraves_de ?>"><?php echo $atraves_de ?></option> 
+                                    <option value="cliente">Cliente</option> 
+                                    <option value="convenio">Convênio</option> 
+                                    <option value="indicacao">Indicação</option> 
+                                    <option value="passagem">Passagem</option> 
+                                    <option value="propaganda">Propaganda</option> 
+                                    <option value="outros">Outros</option> 
+                                </select>
+                            </div>
+                        </div>   
+
+
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
@@ -87,7 +137,7 @@ $q = mysqli_query($conn, $sql);
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Data Venda:</label>
-                                <input name="data_venda" type="text" id="datepicker"  value="<?php echo $data_venda; ?>" placeholder="Data Venda" class="form-control">
+                                <input name="data_venda" type="text" id="datepicker" readonly='true' value="<?php echo $data_venda; ?>" placeholder="Data Venda" class="form-control">
                             </div>
                         </div>   
 
@@ -95,9 +145,27 @@ $q = mysqli_query($conn, $sql);
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Data Retirada:</label>
-                                <input name="data_retirada" type="text" id="datepicker2" value="<?php echo $data_retirada; ?>" placeholder="Data Retirada" class="form-control">
+                                <input name="data_retirada" type="text" id="datepicker2" readonly='true' value="<?php echo $data_retirada; ?>" placeholder="Data Retirada" class="form-control">
                             </div>
-                        </div>                           
+                        </div>    
+
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Tipo Armação:</label>
+                                <select id="tipo_armacao" name="tipo_armacao" class="form-control"> 
+                                    <option value="<?php echo $tipo_armacao ?>"><?php echo $tipo_armacao ?></option> 
+                                    <option value="acetato">Acetato</option> 
+                                    <option value="balgriff">Balgriff</option> 
+                                    <option value="lenteContato">Lente de Contato</option> 
+                                    <option value="metal">Metal</option> 
+                                    <option value="nylon">Nylon</option> 
+                                    <option value="outros">Outros</option> 
+                                </select>
+                            </div>
+                        </div>     
+                                        
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
@@ -151,11 +219,20 @@ $q = mysqli_query($conn, $sql);
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                            <label>Forma de Pagamento:</label>
-                                <input id="forma_pagamento" name="forma_pagamento" type="text" value="<?php echo $forma_pagamento; ?>" placeholder="Forma Pagamento" class="form-control">                            
+                            <label>DP:</label>
+                                <input id="dp" name="dp" type="text" value="<?php echo $dp; ?>" placeholder="DP"  class="form-control">
+                                    
                             </div>
-                        </div> 
+                        </div>
 
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Altura:</label>
+                                <input id="altura" name="altura" type="text" value="<?php echo $altura; ?>"
+                                    placeholder="Altura"  class="form-control">
+                            </div>
+                        </div>                        
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
@@ -163,19 +240,23 @@ $q = mysqli_query($conn, $sql);
                             <label>Valor:</label>
                                 <input id="valor" name="valor" type="text" value="<?php echo $valor; ?>" class="form-control">
                             </div>
-                        </div>       
-
+                        </div>   
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                                 <select id="concluido" name="concluido" placeholder="Concluido" class="form-control"> 
-                                    <option value=""><?php echo $concluido == 'S' ? 'Sim' : 'Não'; ?></option> 
-                                    <option value="N">Não</option> 
-                                    <option value="S">Sim</option> 
-                                </select>
+                            <label>Forma de Pagamento:</label>
+                                <input id="forma_pagamento" name="forma_pagamento" type="text" value="<?php echo $forma_pagamento; ?>" placeholder="Forma Pagamento" class="form-control">                            
                             </div>
                         </div> 
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                            <label>Vendedor:</label>
+                                <input id="vendedor" name="vendedor" value="<?php echo $vendedor; ?>" type="text" placeholder="Vendedor" class="form-control">
+                            </div>
+                        </div>                        
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
@@ -201,7 +282,6 @@ $q = mysqli_query($conn, $sql);
                     <div class="form-group">
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-primary btn-lg">Alterar</button>
-                            <a href="/orcamento.php?id=<?=$id?>" class="btn btn-primary btn-lg" >Orçamento<a>
                         </div>
                     </div>
                     </fieldset>
