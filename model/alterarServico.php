@@ -4,6 +4,8 @@ ini_set("display_errors", 1);
 
 require('./db/Conexao.class.php');
 
+//print_r($_POST);
+
 
 $id = isset($_POST['id']) ? $_POST['id'] : '';
 $osmanual = isset($_POST['osmanual']) ? $_POST['osmanual'] : '';
@@ -34,9 +36,6 @@ $altura = isset($_POST['altura']) ? $_POST['altura'] : '';
 $endereco = isset($_POST['endereco']) ? $_POST['endereco'] : '';
 $bairro = isset($_POST['bairro']) ? $_POST['bairro'] : '';
 $vendedor = isset($_POST['vendedor']) ? $_POST['vendedor'] : '';
-
-//print_r('condluido');
-//print_r($concluido);
 
 
 $sql = "update ordem_servico
@@ -71,7 +70,7 @@ $sql = "update ordem_servico
 
 
 $conn = Conexao::getInstace();
-$q = mysqli_query($conn, $sql);
+//$q = mysqli_query($conn, $sql);
 
 
             try {

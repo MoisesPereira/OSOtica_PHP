@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
@@ -12,10 +13,11 @@ $telefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
 $celular = isset($_POST['celular']) ? $_POST['celular'] : '';
 $idade = isset($_POST['idade']) ? $_POST['idade'] : '';
 $data_venda = isset($_POST['data_venda']) ? $_POST['data_venda'] : '';
-if($data_venda != ''){$data_venda = explode('/', $data_venda); $data_venda = $data_venda[2].'-'.$data_venda[1].'-'.$data_venda[0];}
+//if($data_venda != ''){$data_venda = explode('/', $data_venda); $data_venda = $data_venda[2].'-'.$data_venda[1].'-'.$data_venda[0];}
 
 $data_retirada = isset($_POST['data_retirada']) ? $_POST['data_retirada'] : '';
-if($data_retirada != ''){$data_retirada = explode('/', $data_retirada); $data_retirada = $data_retirada[2].'-'.$data_retirada[1].'-'.$data_retirada[0];}
+//if($data_retirada != ''){$data_retirada = explode('/', $data_retirada); $data_retirada = $data_retirada[2].'-'.$data_retirada[1].'-'.$data_retirada[0];}
+
 
 $armacao = isset($_POST['armacao']) ? $_POST['armacao'] : '';
 $lente = isset($_POST['lente']) ? $_POST['lente'] : '';
@@ -46,15 +48,13 @@ $sqlOS = "select * from ordem_servico where os_manual = '{$osmanual}'";
 
 $qOs = mysqli_query($conn, $sqlOS);
 
-if($qOs){
-   echo "Ordem de Serviço já Cadastrada222!";
-   header('Location: ' . $_SERVER['HTTP_REFERER']);
-   //header('Location: javascript:history.go(-1)');
+if($qOs->num_rows > 0){
 
-   //header('Location: http://www.example.com/');
+      echo "OS já cadastrada!";
+      echo "<meta HTTP-EQUIV='refresh' CONTENT='2;URL=/cadastrarServico.php'>";
 
-   //return;
-   //echo "<script> window.history.back(); </script>";
+   exit;
+
 }
 
 

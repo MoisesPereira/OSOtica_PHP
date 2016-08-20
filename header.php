@@ -12,6 +12,7 @@
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/js/maskJquery.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+	<script src="./js/jquery.maskMoney.js" type="text/javascript"></script>
 
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -138,7 +139,7 @@ require('config.php');
 		    <ul class="dropdown-menu">
 		      <li><a href="/index.php">Listar</a></li>
 		      <li><a href="/cadastrarServico.php">Cadastrar</a></li>
-		      <li><a href="/detalhesServico.php">Detalhes</a></li>
+		     <!-- <li><a href="/detalhesServico.php">Detalhes</a></li>-->
 		    </ul>
 		</li>
 

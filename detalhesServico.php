@@ -30,19 +30,6 @@ $q = mysqli_query($conn, $sql);
     }
 
 
-
-if(!strstr($data_venda, "/")){
-    $data_venda = explode('-', $data_venda); 
-    $data_venda = $data_venda[2].'/'.$data_venda[1].'/'.$data_venda[0];
-}
-
-if(!strstr($data_retirada, "/")){
-    $data_retirada = explode('-', $data_retirada); 
-    $data_retirada = $data_retirada[2].'/'.$data_retirada[1].'/'.$data_retirada[0];
-}
-
-
-
 ?>
 
 <div class="container">
@@ -234,13 +221,22 @@ if(!strstr($data_retirada, "/")){
                             </div>
                         </div>                        
 
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                             <label>Valor:</label>
-                                <input id="valor" name="valor" type="text" value="<?php echo $valor; ?>" class="form-control">
+                                <input id="valor" name="valor" type="text"  class="form-control">
                             </div>
-                        </div>   
+                        </div>   -->
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label>Valor R$:</label>
+                                <input id="valor" name="valor" type="text" value="<?php echo $valor; ?>" class="form-control">
+                                <script type="text/javascript">$("#valor").maskMoney({thousands:'.', decimal:',', allowZero: true});</script>
+                            </div>
+                        </div>                        
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>

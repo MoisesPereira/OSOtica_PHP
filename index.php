@@ -131,27 +131,12 @@ echo "
     $hoje = date('d/m/Y');
 
     while($t = mysqli_fetch_assoc($q)){
-        //$conc = $t['concluido'] == 0 ? 'Não' : 'Sim';
-        $val = 'R$ ' . $t['valor'];
 
+        $val = 'R$ ' . number_format($t['valor'],2,",","."); 
 
-        
-        //echo "dt_venda[2]" . $dt_venda[2]. "<br>" . "dt_venda[1]" . $dt_venda[1]. "<br>" . "dt_venda[0]" . $dt_venda[0]. "<br>";
-        
         $dt_venda = $t['data_venda'];
-        if(!strstr($t['data_venda'], "/")){
-            $dt_venda = explode('-', $t['data_venda']);
-            $dt_venda = $dt_venda[2].'/'. $dt_venda[1] .'/'. $dt_venda[0];
-        }
 
         $dt_retirada = $t['data_retirada'];
-        if(!strstr($t['data_retirada'], "/")){
-            $dt_retirada = explode('-', $t['data_retirada']);
-            $dt_retirada = $dt_retirada[2] .'/'. $dt_retirada[1] .'/'. $dt_retirada[0];  
-        }
-
-     
-
 
         echo "<tr>";
         echo "<td>{$t['os_manual']}</td>";
@@ -165,29 +150,12 @@ echo "
     }
 
 
-    /*while($t = mysqli_fetch_assoc($q)){
-
-        $conc = $t['concluido'] == 0 ? 'Não' : 'Sim';
-        $dt_entrega = explode('-', $t['dt_entrega']);
-        $dt_entrega = $dt_entrega[2] .'/'. $dt_entrega[1] .'/'. $dt_entrega[0];
-
-        $tabela = ($dt_entrega <= $hoje && $conc == 'Não') ?  "<tr style='color:red'>" :  "<tr>";
-        echo $tabela;
-        echo "<td>{$t['nome']}</td>";
-        echo "<td>{$t['valor_total']}</td>";
-        echo "<td>{$dt_entrega}</td>";
-        echo "<td>{$conc}</td>";
-        echo "<td>{$t['obs']}</td>";
-        echo "<td><a href='/detalhesServico.php?id={$t['id_servico']}'>Selecionar</a></td>";
-        echo "</tr>";
-    }*/
-
 ?>
 
         </tbody>
     </table>
 <?php    
-//}
+
 ?>
 </body>
 </html>

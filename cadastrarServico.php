@@ -34,14 +34,14 @@ $idade = isset($_GET['idade']) ? $_GET['idade'] : '';
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="osmanual" name="osmanual" type="text" placeholder="Número da OS" class="form-control">
+                                <input type="number" id="osmanual" name="osmanual" required oninvalid="setCustomValidity('Número da OS Obrigatório!!!')"placeholder="Número da OS" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="nome_cliente" name="nome_cliente" type="text" placeholder="Nome Cliente" class="form-control">
+                                <input type="text" placeholder="Nome Cliente" id="nome_cliente" name="nome_cliente" required oninvalid="setCustomValidity('Nome do Cliente, Obrigatório!!!')" class="form-control">
                             </div>
                         </div>
 
@@ -203,6 +203,7 @@ $idade = isset($_GET['idade']) ? $_GET['idade'] : '';
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
                                 <input id="valor" name="valor" type="text" placeholder="R$ Valor" class="form-control">
+                                <script type="text/javascript">$("#valor").maskMoney({thousands:'.', decimal:',', allowZero: true, suffix: ' R$'});</script>
                             </div>
                         </div>
 
